@@ -1,0 +1,15 @@
+{
+  "min_Windrichtung": 283.0,
+  "max_Windrichtung": 291.0,
+  "avg_Windrichtung": 286.0,
+  "min_Windspeed": 16.0,
+  "max_Windspeed": 18.0,
+  "avg_Windspeed": 17.1,
+  "min_Speed_KMH": 29.6,
+  "max_Speed_KMH": 33.3,
+  "avg_Speed_KMH": 31.7,
+  "Temp": 8.0,
+  "QFE": 1011.0,
+  "QNH": 1020.0,
+  "time": "Letztes Update am 20-04-2024 um 11:23:44 UTC"
+}

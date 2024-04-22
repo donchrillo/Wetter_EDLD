@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap Site</title>
+  <meta http-equiv="refresh" content="30">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+</head>
+<style>
+
+:root {
+    --winkel: 0deg;
+}
+
+.rwy-holder {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.rwy-holder img {
+  max-width: 100%;
+
+}
+
+.arrow-holder {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+
+}
+.arrow-holder img {
+  max-width: 100%;
+  transform: rotate(var(--winkel));
+  visibility: hidden;
+}
+
+</style>
+<body >
+
+ 
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="rwy-holder">
+                <img src="static/compass.png">
+                <div class="arrow-holder">
+                    <img id="pfeil" src="static/pfeil.png">
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm mt-5">
+    
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th colspan="4" scope="col" class="text-right">Werte aus den letzen 2 Minuten</th>
+                      </tr>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col" >min.</th>
+                    <th scope="col">&#8960;</th>
+                    <th scope="col">max.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Windrichtung°</th>
+                    <td id="minRichtung"></td>
+                    <td id="avgRichtung"></td>
+                    <td id="maxRichtung"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Windstärke kn</th>
+                    <td id="minKN"></td>
+                    <td id="avgKN"></td>
+                    <td id="maxKN"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Windstärke km/h</th>
+                    <td id="minKMH"></td>
+                    <td id="avgKMH"></td>
+                    <td id="maxKMH"></td>
+                  </tr>
+
+                </tbody>
+              </table>
+
+              <table class="table table-hover">
+                <thead>
+                   
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">&#8960;</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Temperatur°</th>
+
+                    <td id="temp"></td>
+
+                  </tr>
+                  <tr>
+                    <th scope="row">QFE</th>
+                    <td id="QFE"></td>      
+
+
+                  </tr>
+                  <tr>
+                    <th scope="row">QNH</th>
+                    <td id="QNH"></td>
+                  </tr>
+                </tbody>
+              </table>
+
+        <span>  
+          <pre class="text-right" id="time"></pre>
+        </span>     
+        <span>  
+          <pre class="text-right">&#169; 2024 <a href="mailto:blass@toci.de" class="link-dark">Christian Blaß</a></pre>
+        </span> 
+
+            
+        </div>
+    </div>
+    
+
+  </div>
+
+  <script language="javascript" type="text/javascript">
+
+    var myHeaders = new Headers();
+    myHeaders.append('pragma', 'no-cache');
+    myHeaders.append('cache-control', 'no-cache');
+
+    var myInit = {
+      method: 'GET',
+      headers: myHeaders,
+    };
+
+    var myRequest = new Request('daten.json');
+
+    async function getDATA() {
+            const response = await fetch(myRequest, myInit);
+            const data = await response.json();
+     
+            console.log(data);
+            document.getElementById('minRichtung').textContent = data.min_Windrichtung;
+            document.getElementById('avgRichtung').textContent = data.avg_Windrichtung;
+            document.getElementById('maxRichtung').textContent = data.max_Windrichtung;
+            
+            document.getElementById('minKN').textContent = data.min_Windspeed;
+            document.getElementById('avgKN').textContent = data.avg_Windspeed;
+            document.getElementById('maxKN').textContent = data.max_Windspeed;            
+
+            document.getElementById('minKMH').textContent = data.min_Speed_KMH;
+            document.getElementById('avgKMH').textContent = data.avg_Speed_KMH;
+            document.getElementById('maxKMH').textContent = data.max_Speed_KMH;       
+            
+            document.getElementById('temp').textContent = data.Temp;
+            document.getElementById('QFE').textContent = data.QFE;
+            document.getElementById('QNH').textContent = data.QNH;       
+
+            document.getElementById('time').textContent = data.time;  
+
+            document.documentElement.style.setProperty('--winkel', data.avg_Windrichtung + "deg")
+            document.getElementById("pfeil").style.visibility = "visible";
+
+        }
+    
+    getDATA();
+
+    </script>
+
+</body>
+</html>
